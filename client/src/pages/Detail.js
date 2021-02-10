@@ -1,62 +1,70 @@
+//22.1.6
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from '@apollo/react-hooks';
 
 import { QUERY_PRODUCTS } from "../utils/queries";
 import spinner from '../assets/spinner.gif'
+import { useStoreContext } from '../utils/GlobalState';
+import { UPDATE_PRODUCTS } from '../utils/actions';
 
 function Detail() {
-  const { id } = useParams();
+    //22.1.6
+    const [state, dsipatch] = useStoreContext();
+    const { id } = useParams();
+    const [currentProduct, setCurrentProduct] = useState({});
+    const { loading, data } = useQuery(QUERY_PRODUCTS);
+    const { products } = state;
 
-  const [currentProduct, setCurrentProduct] = useState({})
+    useEffect(() => {
+        if (products.length) {
+            setCurrentProduct(products.find(product => product._id === id));
+        }
+        else if (data) {
+            dsipatch({
+                type: UPDATE_PRODUCTS,
+                products: data.products
+            });
+        }
+    }, [products, data, dsipatch, id]);
 
-  const { loading, data } = useQuery(QUERY_PRODUCTS);
+    return (
+        <>
+            {currentProduct ? (
+                <div className="container my-1">
+                    <Link to="/">
+                        ← Back to Products
+                    </Link>
 
-  const products = data?.products || [];
+                    <h2>{currentProduct.name}</h2>
 
-  useEffect(() => {
-    if (products.length) {
-      setCurrentProduct(products.find(product => product._id === id));
-    }
-  }, [products, id]);
+                    <p>
+                        {currentProduct.description}
+                    </p>
 
-  return (
-    <>
-      {currentProduct ? (
-        <div className="container my-1">
-          <Link to="/">
-            ← Back to Products
-          </Link>
+                    <p>
+                        <strong>Price:</strong>
+                            ${currentProduct.price}
+                            {" "}
+                        <button>
+                            Add to Cart
+                        </button>
+                        <button>
+                            Remove from Cart
+                        </button>
+                    </p>
 
-          <h2>{currentProduct.name}</h2>
-
-          <p>
-            {currentProduct.description}
-          </p>
-
-          <p>
-            <strong>Price:</strong>
-            ${currentProduct.price}
-            {" "}
-            <button>
-              Add to Cart
-            </button>
-            <button>
-              Remove from Cart
-            </button>
-          </p>
-
-          <img
-            src={`/images/${currentProduct.image}`}
-            alt={currentProduct.name}
-          />
-        </div>
-      ) : null}
-      {
-        loading ? <img src={spinner} alt="loading" /> : null
-      }
-    </>
-  );
+                    <img
+                        src={`/images/${currentProduct.image}`}
+                        alt={currentProduct.name}
+                    />
+                </div>
+            ) : null}
+            {
+                loading ? <img src={spinner} alt="loading" /> : null
+            }
+        </>
+    );
 };
 
 export default Detail;
