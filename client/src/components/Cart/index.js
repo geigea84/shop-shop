@@ -1,15 +1,31 @@
-//22.2.4
-import React from 'react';
+//22.2.4, update 22.3.5
+import React, { useEffect } from 'react';
 import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
 import './style.css';
 //22.2.5
 import { useStoreContext } from '../../utils/GlobalState';
-import { TOGGLE_CART } from '../../utils/actions';
+//update 22.3.5
+import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
+import { idbPromise } from '../../utils/helpers';
 
 const Cart = () => {
     const [state, dispatch] = useStoreContext();
     console.log(state);
+
+    //22.3.5
+    useEffect(() => {
+        async function getCart() {
+            const cart = await idbPromise('cart', 'get');
+            dispatch({
+                type: ADD_MULTIPLE_TO_CART,
+                products: [...cart]
+            });
+        }
+        if (!state.cart.length) {
+            getCart();
+        }
+    }, [state.cart.length, dispatch]);
 
     function toggleCart() {
         dispatch({ type: TOGGLE_CART });
