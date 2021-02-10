@@ -5,9 +5,12 @@ import { useProductReducer } from './reducers';
 const StoreContext = createContext();
 const { Provider } = StoreContext
 
+//update 22.2.5
 const StoreProvider = ({ value = [], ...props }) => {
     const [state, dispatch] = useProductReducer({
         products: [],
+        cart: [],
+        cartOpen: false,
         categories: [],
         currentCategory: ''
     });
