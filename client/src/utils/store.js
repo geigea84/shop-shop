@@ -1,4 +1,8 @@
-import { createStore } from 'redux';
-import reducers from './reducers';
+//https://redux.js.org/tutorials/fundamentals/part-1-overview
+//create store instance by calling redux library createStore API
+//define reducer in reducers.js and pass as argument in createStore
 
-export default createStore(reducers);
+import { createStore } from 'redux';
+import reducer from './reducers';
+
+export default createStore(reducer);

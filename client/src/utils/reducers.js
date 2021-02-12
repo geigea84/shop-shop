@@ -1,5 +1,4 @@
 //22.1.4
-import { useReducer } from 'react';
 import {
     UPDATE_PRODUCTS,
     UPDATE_CATEGORIES,
@@ -12,7 +11,20 @@ import {
     TOGGLE_CART
 } from './actions';
 
-export const reducer = (state, action) => {
+//https://redux.js.org/tutorials/fundamentals/part-1-overview
+/* The reducer receives two arguments, the current state and an 
+action object describing what happened. When the Redux app starts 
+up, we don't have any state yet, so we provide the initialState 
+as the default value for this reducer */
+const initialState = {
+    products: [],
+    categories: [],
+    currentCategory: '',
+    cart: [],
+    cartOpen: false
+}
+
+export const reducer = (state = initialState, action) => {
     switch (action.type) {
         //if action type value is the value of 'UPDATE_PRODUCTS', 
         //return a new state object with an updated products array
@@ -93,6 +105,4 @@ export const reducer = (state, action) => {
     }
 }
 
-export function useProductReducer(initialState) {
-    return useReducer(reducer, initialState);
-}
+export default reducer;
