@@ -5,7 +5,6 @@ import { useQuery } from '@apollo/react-hooks';
 import {useDispatch, useSelector} from 'react-redux';
 import { QUERY_PRODUCTS } from "../utils/queries";
 import spinner from '../assets/spinner.gif'
-import { useStoreContext } from '../utils/GlobalState';
 //update 22.2.6
 import {
     UPDATE_PRODUCTS,

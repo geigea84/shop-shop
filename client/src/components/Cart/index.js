@@ -7,7 +7,6 @@ import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
 import './style.css';
 //22.2.5
-import { useStoreContext } from '../../utils/GlobalState';
 //update 22.3.5
 import { TOGGLE_CART, ADD_MULTIPLE_TO_CART } from '../../utils/actions';
 import { idbPromise } from '../../utils/helpers';
