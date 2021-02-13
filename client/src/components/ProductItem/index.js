@@ -2,13 +2,16 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { pluralize } from "../../utils/helpers"
-import { useStoreContext } from '../../utils/GlobalState';
+import { useDispatch, useSelector } from 'react-redux';
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 //22.3.5
 import { idbPromise } from '../../utils/helpers';
 
 function ProductItem(item) {
-    const [state, dispatch] = useStoreContext();
+    //https://react-redux.js.org/api/hooks
+    //remove useStoreContext, insert react redux hooks
+    const dispatch = useDispatch();
+    const state = useSelector(state => state);
 
     const {
         image,

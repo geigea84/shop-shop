@@ -1,13 +1,15 @@
 //22.2.4
 import React from 'react';
 import { REMOVE_FROM_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
-import { useStoreContext } from '../../utils/GlobalState';
+import { useDispatch } from 'react-redux';
 //22.3.5
 import { idbPromise } from '../../utils/helpers';
 
 const CartItem = ({ item }) => {
+    //CartItem had no need to read state, so only dispatch added,
+    //remove useStoreContext and insert only useDispatch (no useSelector)
     //22.2.7
-    const [, dispatch] = useStoreContext();
+    const dispatch = useDispatch();
 
     //22.2.7
     const removeFromCart = item => {

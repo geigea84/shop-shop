@@ -2,7 +2,7 @@
 import React, { useEffect } from 'react';
 //22.4.5
 import { useLazyQuery } from '@apollo/react-hooks';
-
+import { useDispatch, useSelector } from 'react-redux';
 import CartItem from '../CartItem';
 import Auth from '../../utils/auth';
 import './style.css';
@@ -16,8 +16,18 @@ import { QUERY_CHECKOUT } from '../../utils/queries';
 import { loadStripe } from '@stripe/stripe-js';
 const stripePromise = loadStripe('pk_test_TYooMQauvdEDq54NiTphI7jx');
 
+//https://redux.js.org/tutorials/fundamentals/part-1-overview
+/* We need to respond to user input by creating action objects
+ that describe what happened, and dispatching them to the store. 
+ When we call store.dispatch(action), the store runs the reducer, 
+ calculates the updated state, and runs the subscribers to update 
+ the UI. */
+
 const Cart = () => {
-    const [state, dispatch] = useStoreContext();
+    //https://react-redux.js.org/api/hooks
+    //remove useStoreContext, insert react redux hooks
+    const dispatch = useDispatch();
+    const state = useSelector(state => state);
     const [getCheckout, { data }] = useLazyQuery(QUERY_CHECKOUT);
     console.log(state);
 

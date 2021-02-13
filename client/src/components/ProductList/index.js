@@ -5,14 +5,17 @@ import { useQuery } from "@apollo/react-hooks";
 import ProductItem from "../ProductItem";
 import { QUERY_PRODUCTS } from "../../utils/queries";
 import spinner from "../../assets/spinner.gif";
-import { useStoreContext } from "../../utils/GlobalState";
+import { useDispatch, useSelector } from 'react-redux';
 import { UPDATE_PRODUCTS } from "../../utils/actions";
 //22.3.4
 import { idbPromise } from '../../utils/helpers';
 
 function ProductList() {
-  //22.1.6
-    const [state, dispatch] = useStoreContext();
+    //22.1.6
+    //https://react-redux.js.org/api/hooks
+    //remove useStoreContext, insert react redux hooks
+    const dispatch = useDispatch();
+    const state = useSelector(state => state);
     const { currentCategory } = state;
     const { loading, data } = useQuery(QUERY_PRODUCTS);
 
