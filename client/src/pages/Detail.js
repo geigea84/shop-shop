@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useQuery } from '@apollo/react-hooks';
-
+import {useDispatch, useSelector} from 'react-redux';
 import { QUERY_PRODUCTS } from "../utils/queries";
 import spinner from '../assets/spinner.gif'
 import { useStoreContext } from '../utils/GlobalState';
@@ -18,9 +18,19 @@ import Cart from '../components/Cart';
 //22.3.4
 import { idbPromise } from '../utils/helpers';
 
+//https://redux.js.org/tutorials/fundamentals/part-1-overview
+/* We need to respond to user input by creating action objects
+ that describe what happened, and dispatching them to the store. 
+ When we call store.dispatch(action), the store runs the reducer, 
+ calculates the updated state, and runs the subscribers to update 
+ the UI. */
+
 function Detail() {
+    //https://react-redux.js.org/api/hooks
+    //remove useStoreContext, insert react redux hooks
+    const dispatch = useDispatch();
+    const state = useSelector(state => state);
     //22.1.6
-    const [state, dispatch] = useStoreContext();
     const { id } = useParams();
     const [currentProduct, setCurrentProduct] = useState({});
     const { loading, data } = useQuery(QUERY_PRODUCTS);
@@ -94,7 +104,7 @@ function Detail() {
 
     return (
         <>
-            {currentProduct ? (
+            {currentProduct && cart ? (
                 <div className="container my-1">
                     <Link to="/">
                         ← Back to Products
